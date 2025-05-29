@@ -1,0 +1,9 @@
+*
+!**/*/
+!.gitignore
+!*.html
+!*.md
+!*.txt
+!*.py
+!Dockerfile
+.venv

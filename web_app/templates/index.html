@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+ <meta charset="utf-8">
+    <title>home</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+	</head>
+
+<style>
+body {
+background-color: {{ bg_color }}
+}
+</style>
+
+<body>
+<a href="/contact_us" class="block w-10 h-10 rounded-full overflow-hidden">
+    <img src="https://cdn-icons-png.flaticon.com/256/17213/17213946.png" alt="Contact Us Image" class="w-full h-full object-cover">
+</a>	
+	<center>
+    <h1 style="color: #FFFFFF">The Forecast<br>Shoham's News</h1>
+    
+	<form class="max-w-lg mx-auto" action="{{url_for('weather')}}" method="post">
+        <label for="enter city and days to forecast"></label><br>
+        <input type="text" name="city" placeholder="enter city" required>
+		<label for="forecast_days"></label>
+		<select name="forecast_days">
+		{% for i in range(1,11) %}
+		<option value={{i}}>{{i}} days</option>
+    	{% endfor %}
+		</select>
+
+		<button type="submit" class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+<span class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+search
+		</span>
+		</button>
+    </form>
+
+	</center>
+</body>
+</html>
