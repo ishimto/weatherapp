@@ -1,14 +1,12 @@
-from pathlib import Path
 import os
-from datetime import date
-from flask import Flask, render_template, request, redirect, url_for, send_file, Response
+from pathlib import Path
+from UnleashClient import UnleashClient # Feature Flags
+from flask import Flask, render_template, request, redirect, url_for, Response
+from prometheus_client import generate_latest,  Counter, start_http_server
 from backend_weather import GeoData
 from modules.api_request import WeatherRequest
-from modules.envs import *
+from modules.envs import * # Environment Variables module
 #from server_logs import logs
-import socket
-from prometheus_client import generate_latest,  Counter, start_http_server
-from UnleashClient import UnleashClient
 
 
 start_http_server(5000) # Prometheus metrics - service discovery used in K8s
