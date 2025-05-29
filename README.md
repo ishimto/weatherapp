@@ -68,12 +68,22 @@ A web application for checking weather forecasts with a dynamic UI and a contact
    cd web_app
    ```
 
-2. **Install dependencies:**
+2. **Create Venv:**
+   ```sh
+   python -m venv .venv
+   ```
+
+3. **Active Venv:**
+   ```sh
+   source .venv/bin/activate
+   ```
+    
+4. **Install dependencies:**
    ```sh
    pip install -r requirements.txt
    ```
 
-3. **Run the server:**
+5. **Run the server:**
    ```sh
    gunicorn -b 0.0.0.0:8000 wsgi:app
    ```
