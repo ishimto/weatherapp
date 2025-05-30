@@ -42,36 +42,52 @@ jobs:
     - name: Reachability
       run: pytest ./web_app/tests/test_response.py
     
-    - name: Get Version
+    - name: Increment Version based on commit message
       run: |
         COMMIT_MSG="${{ github.event.head_commit.message }}" 
         
         OLD_VERSION=$(yq e '.services.weatherapp.environment.APP_VERSION' compose.yaml)
         IFS='.' read -r major minor patch <<< "${OLD_VERSION}"
         
+        update=false
+
         if [[ "${COMMIT_MSG}" == *"patch"* ]]; then
           patch=$((patch + 1))
+          update=true
         fi
         if [[ "${COMMIT_MSG}" == *"minor"* ]]; then
           minor=$((minor + 1))
           patch=0
+          update=true
         fi
         if [[ "${COMMIT_MSG}" == *"major"* ]]; then
           major=$((major + 1))
           minor=0
           patch=0
+          update=true
         fi
-        NEW_VERSION="${major}.${minor}.${patch}"
+
+        if [[ "${update}" == false ]]; then
+          echo "Commit does not contain 'major', 'minor', or 'patch'."
+          echo "Using old version: $OLD_VERSION"
+          NEW_VERSION="$OLD_VERSION"
+        else
+          NEW_VERSION="${major}.${minor}.${patch}"
+        fi
+
         echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
+
 
     - name: Update compose.yaml with new version
       run: |
-        yq e -i '.services.weatherapp.environment.APP_VERSION = strenv(NEW_VERSION)' compose.yaml
-    
+        yq e -i '.services.weatherapp.environment.APP_VERSION = ${{ env.NEW_VERSION }}' compose.yaml
+
+
     - name: Docker tag & Push New Version
       run: |
         docker tag ${DOCKER_IMAGE}:${GITHUB_SHA} ${DOCKER_IMAGE}:${{ env.NEW_VERSION }}
         docker push ${DOCKER_IMAGE}:${{ env.NEW_VERSION }}
+
 
     - name: Push git changes
       uses: EndBug/add-and-commit@v9
