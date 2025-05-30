@@ -80,7 +80,7 @@ jobs:
 
     - name: Update compose.yaml with new version
       run: |
-        yq e -i '.services.weatherapp.environment.APP_VERSION = ${{ env.NEW_VERSION }}' compose.yaml
+        yq e -i '.services.weatherapp.environment.APP_VERSION =  strenv(NEW_VERSION)' compose.yaml
 
 
     - name: Docker tag & Push New Version
