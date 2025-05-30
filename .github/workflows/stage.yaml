@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_IMAGE: ${{ secrets.DOCKER_REPO }}/test-image
+      GITHUB_SHA: ${{ github.sha }}
 
     steps:
     - name: Checkout repository code
@@ -32,8 +33,6 @@ jobs:
 
 
     - name: Build and Publish image
-      env:
-        GITHUB_SHA: ${{ github.sha }}
       run: |
         docker compose up --build -d
         docker push ${DOCKER_IMAGE}:${GITHUB_SHA}
@@ -42,4 +41,42 @@ jobs:
 
     - name: Reachability
       run: pytest ./web_app/tests/test_response.py
+    
+    - name: Get Version
+      run: |
+        COMMIT_MSG="${{ github.event.head_commit.message }}" 
+        
+        OLD_VERSION=$(yq e '.services.weatherapp.environment.APP_VERSION' compose.yaml)
+        IFS='.' read -r major minor patch <<< "${OLD_VERSION}"
+        
+        if [[ "${COMMIT_MSG}" == *"patch"* ]]; then
+          patch=$((patch + 1))
+        fi
+        if [[ "${COMMIT_MSG}" == *"minor"* ]]; then
+          minor=$((minor + 1))
+          patch=0
+        fi
+        if [[ "${COMMIT_MSG}" == *"major"* ]]; then
+          major=$((major + 1))
+          minor=0
+          patch=0
+        fi
+        NEW_VERSION="${major}.${minor}.${patch}"
+        echo "NEW_VERSION=${NEW_VERSION}" >> $GITHUB_ENV
 
+    - name: Update compose.yaml with new version
+      run: |
+        yq e -i '.services.weatherapp.environment.APP_VERSION = strenv(NEW_VERSION)' compose.yaml
+    
+    - name: Docker tag & Push New Version
+      run: |
+        docker tag ${DOCKER_IMAGE}:${GITHUB_SHA} ${DOCKER_IMAGE}:${{ env.NEW_VERSION }}
+        docker push ${DOCKER_IMAGE}:${{ env.NEW_VERSION }}
+
+    - name: Push git changes
+      uses: EndBug/add-and-commit@v9
+      with:
+        author_name: ${{ github.actor }}
+        author_email: githubactions@ishimto.com
+        add: 'compose.yaml'
+        message: ${{ env.NEW_VERSION }}

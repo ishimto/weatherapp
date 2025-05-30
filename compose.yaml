@@ -10,4 +10,4 @@ services:
       FLAGS_URL: "https://flags.example.com"
       FLAGS_APP: "weatherapp"
       BG_COLOR: "yellow"
-      APP_VERSION: "1.0.0"
+      APP_VERSION: ${VERSION}
