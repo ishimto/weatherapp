@@ -1,7 +1,7 @@
 services:
   weatherapp:
     build: .
-    image: testimage
+    image: testimage:${GITHUB_SHA}
     ports:
       - "8000:8000"
     environment:
