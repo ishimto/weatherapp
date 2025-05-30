@@ -15,4 +15,4 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Build Image
-      run: docker build -t testimage .
+      run: docker compose up --build -d
