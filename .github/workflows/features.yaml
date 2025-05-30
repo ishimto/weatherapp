@@ -1,0 +1,18 @@
+name: CI - Features/* branches
+on:
+  push:
+    branches:
+      - features/*
+    paths-ignore:
+      - "**/*.md"
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    - name: Build Image
+      run: docker build -t testimage .
