@@ -1,4 +1,4 @@
-name: CI - Stage/* branches
+name: CI - Stage branch
 on:
   push:
     branches:
