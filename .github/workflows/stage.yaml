@@ -6,6 +6,9 @@ on:
     paths-ignore:
       - "**/*.md"
 
+permissions:
+  contents: write
+
 jobs:
   ci:
     runs-on: ubuntu-latest
