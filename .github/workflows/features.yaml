@@ -35,7 +35,7 @@ jobs:
     - name: Reachability
       run: |
         for i in {1..10}; do
-            status_code=$(curl --silent --output /dev/null --write-out "%{http_code}" http://localhost:8000)
+            status_code=$(curl --silent --output /dev/null --write-out "%{http_code}" http://localhost:2000)
             if [ "${status_code}" == 200 ]; then
                 echo "Rechability Success, continue"
                 exit 0
