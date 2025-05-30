@@ -16,40 +16,45 @@ A web application for checking weather forecasts with a dynamic UI and a contact
 
 ```
 .
+├── compose.yaml
 ├── Dockerfile
-├── web_app/
-│   ├── backend_weather.py
-│   ├── requirements.txt
-│   ├── server.py
-│   ├── wsgi.py
-│   ├── background/
-│   │   ├── cloudy.txt
-│   │   ├── dunny_rope.jpeg
-│   │   ├── overcast.txt
-│   │   ├── rain.txt
-│   │   ├── snow.txt
-│   │   └── sunny.txt
-│   ├── modules/
-│   │   ├── api_request.py
-│   │   ├── basemodels.py
-│   │   ├── consts.py
-│   │   └── envs.py
-│   ├── server_logs/
-│   │   └── logs.py
-│   ├── templates/
-│   │   ├── contact_us.html
-│   │   ├── error.html
-│   │   ├── index.html
-│   │   ├── index.html.bak
-│   │   └── weather.html
-│   └── tests/
-│       ├── api_mock.py
-│       ├── api_request.py
-│       ├── backend_weather.py
-│       ├── basemodels.py
-│       ├── browser_test.py
-│       ├── test_parse.py
-│       └── test_response.py
+├── README.md
+└── web_app
+    ├── backend_weather.py
+    ├── background
+    │   ├── cloudy.txt
+    │   ├── dunny_rope.jpeg
+    │   ├── overcast.txt
+    │   ├── rain.txt
+    │   ├── snow.txt
+    │   └── sunny.txt
+    ├── modules
+    │   ├── api_request.py
+    │   ├── basemodels.py
+    │   ├── consts.py
+    │   └── envs.py
+    ├── requirements.txt
+    ├── server_logs
+    │   └── logs.py
+    ├── server.py
+    ├── templates
+    │   ├── contact_us.html
+    │   ├── error.html
+    │   ├── index.html
+    │   ├── index.html.bak
+    │   └── weather.html
+    ├── tests
+    │   ├── api_mock.py
+    │   ├── api_request.py
+    │   ├── backend_weather.py
+    │   ├── basemodels.py
+    │   ├── requirements
+    │   │   ├── features.txt
+    │   │   └── stage.txt
+    │   ├── selenium.py
+    │   ├── test_parse.py
+    │   └── test_response.py
+    └── wsgi.py
 ```
 
 ## Getting Started
