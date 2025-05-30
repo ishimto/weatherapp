@@ -93,6 +93,6 @@ jobs:
       uses: EndBug/add-and-commit@v9
       with:
         author_name: ${{ github.actor }}
-        author_email: githubactions@ishimto.com
+        author_email: githubactions@ishimtoharta.com
         add: 'compose.yaml'
         message: ${{ env.NEW_VERSION }}
