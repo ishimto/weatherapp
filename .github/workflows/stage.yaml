@@ -10,7 +10,7 @@ jobs:
   ci:
     runs-on: ubuntu-latest
     env:
-      DOCKER_IMAGE: ${{ secrets.DOCKER_REPO }}/test-image
+      DOCKER_IMAGE: ${{ secrets.DOCKER_REPO }}/weatherapp
       GITHUB_SHA: ${{ github.sha }}
 
     steps:
