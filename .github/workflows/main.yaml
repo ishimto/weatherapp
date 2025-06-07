@@ -5,12 +5,14 @@ on:
       - main
     paths-ignore:
       - "**/*.md"
+
 jobs:
   gitops:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository code
       uses: actions/checkout@v4
+
     - name: Get Version
       run: |
         VERSION=$(yq e '.services.weatherapp.environment.APP_VERSION' compose.yaml)
@@ -21,11 +23,11 @@ jobs:
           git config --global user.email "ci-bot@github.com"
           git config --global user.name "CI Bot"
 
-    - name: Clone GitOps repo
+    - name: Update GitOps repo
       run: |
           git clone https://x-access-token:${{ secrets.ARGOCD_REPO_TOKEN }}@github.com/${{ github.repository_owner }}/argocd.git
           cd argocd
-          yq e -i '.APP_VERSION = "${{ env.NEW_VERSION }}"' weatherapp/helm/values.yaml
+          yq e -i 'weatherapp.image.tag = "${{ env.NEW_VERSION }}"' weatherapp/helm/values.yaml
           git add weatherapp/helm/values.yaml
-          git commit -m "Update weatherapp APP_VERSION to ${{ env.NEW_VERSION }}"
+          git commit -m "Update weatherapp image version to ${{ env.NEW_VERSION }}"
           git push origin main
