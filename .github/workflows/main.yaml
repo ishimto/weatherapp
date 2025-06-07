@@ -27,7 +27,7 @@ jobs:
       run: |
           git clone https://x-access-token:${{ secrets.ARGOCD_REPO_TOKEN }}@github.com/${{ github.repository_owner }}/argocd.git
           cd argocd
-          yq e -i 'weatherapp.image.tag = "${{ env.NEW_VERSION }}"' weatherapp/helm/values.yaml
+          yq e -i '.weatherapp.image.tag = "${{ env.NEW_VERSION }}"' weatherapp/helm/values.yaml
           git add weatherapp/helm/values.yaml
           git commit -m "Update weatherapp image version to ${{ env.NEW_VERSION }}"
           git push origin main
